@@ -9,17 +9,14 @@ all:
 	@make install
 
 clean:
-	@echo Removing binaries...
-	@echo 
+	@printf "Removing binaries...\n"
 	rm -f ./bin/*
 
 build:
-	@echo Building bootloader...
-	@echo 
-	mkdir bin
+	@printf "Building bootloader...\n"
+	if [[ ! -d "bin" ]]; then mkdir bin; fi
 	nasm -f bin -o ./bin/boot ./src/boot.asm
 
 install:
-	@echo Writing disk image...
-	@echo 
+	@printf "Writing disk image...\n"
 	dd if=./bin/boot of=$(IMG) bs=512 count=1 conv=notrunc

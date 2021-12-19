@@ -1,14 +1,22 @@
 bits 16
 org 0x7c00
 
+section .text
 start:
+    main
+
+main:
     xor ax,ax
     mov ds,ax
     mov es,ax
     mov ss,ax
     mov sp,0x7c00
 
-clearscreen:
+test_disk_extension:
+    mov ah,0x41
+    mov bx,0x55
+
+clear_screen:
     push bp
     mov bp, sp
     pusha
