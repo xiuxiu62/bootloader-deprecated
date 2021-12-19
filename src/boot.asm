@@ -65,7 +65,7 @@ end:
     jmp end 
 
 drive_id: db 0
-message:        db "Failed boot process", 0
+message:        db "Failed boot process"
 message_length: equ $-message
 read_packet: times 16 db 0
 
