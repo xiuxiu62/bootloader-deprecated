@@ -9,18 +9,18 @@ LOADER=./bin/loader
 .PHONY: clean
 
 all:
-	@make create_image
+	@if [[ ! -f $(IMG) ]]; then make create_image; fi
 	@make build
 	@make install
 
 run: 
 	@printf "Booting %s\n" $ISO_IMAGE
-	qemu-system-i386 -enable-kvm -drive file=$(IMG) -smp 1 -m 1G
+	qemu-system-i386 -enable-kvm -drive file=$(IMG),format=raw -smp 1 -m 1G
 	# -cpu host
 
 build: src/*.asm
 	@printf "Building bootloader...\n"
-	if [[ ! -d "bin" ]]; then mkdir bin; fi
+	@if [[ ! -d "bin" ]]; then mkdir bin; fi
 	$(ASM) -f bin -o $(BOOT) ./src/boot.asm
 	$(ASM) -f bin -o $(LOADER) ./src/loader.asm
 
