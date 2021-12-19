@@ -15,8 +15,7 @@ all:
 
 run: 
 	@printf "Booting %s\n" $ISO_IMAGE
-	qemu-system-i386 -enable-kvm -drive file=$(IMG),format=raw -smp 1 -m 1G
-	# -cpu host
+	qemu-system-x86_64 -enable-kvm -drive file=$(IMG),format=raw -cpu host -smp 1 -m 1G 
 
 build: src/*.asm
 	@printf "Building bootloader...\n"
