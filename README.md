@@ -1,4 +1,3 @@
 ## Instructions
-1. `./scripts/create-image.sh`
-2. `make`
-3. `./scripts/start.sh`
+1. `make`
+2. `make run`

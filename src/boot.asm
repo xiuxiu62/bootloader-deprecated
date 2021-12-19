@@ -1,11 +1,7 @@
 bits 16
 org 0x7c00
 
-section .text
-start:
-    main
-
-main:
+start: 
     xor ax,ax
     mov ds,ax
     mov es,ax
@@ -13,8 +9,29 @@ main:
     mov sp,0x7c00
 
 test_disk_extension:
+    mov [drive_id],dl
     mov ah,0x41
     mov bx,0x55
+    int 0x13
+    jc not_support
+    cmp bx, 0xaa55
+    jne not_support
+
+load_loader:
+    mov si,read_packet
+    mov word[si],0x10
+    mov word[si+2],5
+    mov word[si+4],0x7e00
+    mov word[si+6],0
+    mov dword[si+8],1
+    mov dword[si+0xc],0
+    mov dl,[drive_id]
+    mov ah,0x42
+    int 0x13
+    jc read_error
+
+    mov dl,[drive_id]
+    jmp 0x7e00
 
 clear_screen:
     push bp
@@ -32,9 +49,9 @@ clear_screen:
     popa
     mov sp, bp
     pop bp
-    ; ret
 
-print_message:
+read_error:
+not_support:
     mov ah,0x13
     mov al,0x1
     mov bx,0xa 
@@ -47,8 +64,10 @@ end:
     hlt
     jmp end 
 
-message:        db "hello world", 0
+drive_id: db 0
+message:        db "Failed boot process", 0
 message_length: equ $-message
+read_packet: times 16 db 0
 
 times (0x1be-($ - $$)) db 0
     db 80h
