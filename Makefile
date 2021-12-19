@@ -16,6 +16,7 @@ clean:
 build:
 	@echo Building bootloader...
 	@echo 
+	mkdir bin
 	nasm -f bin -o ./bin/boot ./src/boot.asm
 
 install:

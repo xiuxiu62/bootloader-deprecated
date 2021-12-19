@@ -24,6 +24,7 @@ clearscreen:
     popa
     mov sp, bp
     pop bp
+    ; ret
 
 print_message:
     mov ah,0x13
